@@ -19,7 +19,7 @@ export class UserController {
   }
 
   private async getById(req: Request, res: Response): Promise<void> {
-    const id = parseInt(req.params.id, 10);
+    const id = parseInt(req.params.id as string, 10);
     if (isNaN(id)) { res.status(400).json({ success: false, message: "Invalid id" }); return; }
     const user = await this.userService.getById(id);
     if (!user) { res.status(404).json({ success: false, message: "User not found" }); return; }
@@ -27,7 +27,7 @@ export class UserController {
   }
 
   private async deactivate(req: Request, res: Response): Promise<void> {
-    const id = parseInt(req.params.id, 10);
+    const id = parseInt(req.params.id as string, 10);
     if (isNaN(id)) { res.status(400).json({ success: false, message: "Invalid id" }); return; }
     const ok = await this.userService.deactivate(id);
     res.status(ok ? 200 : 500).json({ success: ok, message: ok ? "User deactivated" : "Failed to deactivate user" });
