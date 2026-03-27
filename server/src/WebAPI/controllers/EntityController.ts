@@ -25,7 +25,7 @@ export class EntityController {
   }
 
   private async getById(req: Request, res: Response): Promise<void> {
-    const id = parseInt(req.params.id, 10);
+    const id = parseInt(req.params.id as string, 10);
     if (isNaN(id)) { res.status(400).json({ success: false, message: "Invalid id" }); return; }
     const entity = await this.entityService.getById(id);
     if (!entity) { res.status(404).json({ success: false, message: "Not found" }); return; }
@@ -33,7 +33,7 @@ export class EntityController {
   }
 
   private async getByUserId(req: Request, res: Response): Promise<void> {
-    const userId = parseInt(req.params.userId, 10);
+    const userId = parseInt(req.params.userId as string, 10);
     if (isNaN(userId)) { res.status(400).json({ success: false, message: "Invalid userId" }); return; }
     const items = await this.entityService.getByUserId(userId);
     res.status(200).json({ success: true, data: items });
@@ -47,14 +47,14 @@ export class EntityController {
   }
 
   private async update(req: Request, res: Response): Promise<void> {
-    const id = parseInt(req.params.id, 10);
+    const id = parseInt(req.params.id as string, 10);
     if (isNaN(id)) { res.status(400).json({ success: false, message: "Invalid id" }); return; }
     const ok = await this.entityService.update(id, req.body);
     res.status(ok ? 200 : 500).json({ success: ok });
   }
 
   private async delete(req: Request, res: Response): Promise<void> {
-    const id = parseInt(req.params.id, 10);
+    const id = parseInt(req.params.id as string, 10);
     if (isNaN(id)) { res.status(400).json({ success: false, message: "Invalid id" }); return; }
     const ok = await this.entityService.delete(id);
     res.status(ok ? 200 : 500).json({ success: ok });
